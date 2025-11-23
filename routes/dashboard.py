@@ -115,3 +115,68 @@ def add_transaction():
 def all_transactions():
     transactions = Transaction.query.filter_by(user_id=current_user.id).order_by(Transaction.date.desc()).all()
     return render_template('transactions.html', transactions=transactions)
+
+
+@dashboard_bp.route('/edit-transaction/<int:transaction_id>', methods=['GET', 'POST'])
+@login_required
+def edit_transaction(transaction_id):
+    transaction = Transaction.query.get_or_404(transaction_id)
+    
+    if transaction.user_id != current_user.id:
+        flash('You do not have permission to edit this transaction.', 'danger')
+        return redirect(url_for('dashboard.all_transactions'))
+    
+    if request.method == 'POST':
+        transaction_type = request.form.get('transaction_type')
+        category = request.form.get('category')
+        amount = request.form.get('amount')
+        description = request.form.get('description')
+        date_str = request.form.get('date')
+        
+        if not transaction_type or not category or not amount or not date_str:
+            flash('All fields except description are required.', 'danger')
+            return render_template('edit_transaction.html', transaction=transaction)
+        
+        try:
+            amount = float(amount)
+            if amount <= 0:
+                flash('Amount must be greater than zero.', 'danger')
+                return render_template('edit_transaction.html', transaction=transaction)
+        except ValueError:
+            flash('Invalid amount format.', 'danger')
+            return render_template('edit_transaction.html', transaction=transaction)
+        
+        try:
+            date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
+        except ValueError:
+            flash('Invalid date format.', 'danger')
+            return render_template('edit_transaction.html', transaction=transaction)
+        
+        transaction.transaction_type = transaction_type
+        transaction.category = category
+        transaction.amount = amount
+        transaction.description = description
+        transaction.date = date_obj
+        
+        db.session.commit()
+        
+        flash('Transaction updated successfully!', 'success')
+        return redirect(url_for('dashboard.all_transactions'))
+    
+    return render_template('edit_transaction.html', transaction=transaction)
+
+
+@dashboard_bp.route('/delete-transaction/<int:transaction_id>', methods=['POST'])
+@login_required
+def delete_transaction(transaction_id):
+    transaction = Transaction.query.get_or_404(transaction_id)
+    
+    if transaction.user_id != current_user.id:
+        flash('You do not have permission to delete this transaction.', 'danger')
+        return redirect(url_for('dashboard.all_transactions'))
+    
+    db.session.delete(transaction)
+    db.session.commit()
+    
+    flash('Transaction deleted successfully!', 'success')
+    return redirect(url_for('dashboard.all_transactions'))

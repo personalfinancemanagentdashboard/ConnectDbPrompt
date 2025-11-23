@@ -35,10 +35,16 @@ def create_app():
     from routes.auth import auth_bp
     from routes.dashboard import dashboard_bp
     from routes.api import api_bp
+    from routes.budgets import budgets_bp
+    from routes.reports import reports_bp
+    from routes.recurring import recurring_bp
     
     app.register_blueprint(auth_bp)
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(api_bp)
+    app.register_blueprint(budgets_bp)
+    app.register_blueprint(reports_bp)
+    app.register_blueprint(recurring_bp)
     
     @app.route('/')
     def index():
