@@ -1,7 +1,7 @@
 import os
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from sqlalchemy.orm import DeclarativeBase
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -48,7 +48,9 @@ def create_app():
     
     @app.route('/')
     def index():
-        return redirect(url_for('dashboard.index'))
+        if current_user.is_authenticated:
+            return redirect(url_for('dashboard.index'))
+        return render_template('landing.html')
     
     with app.app_context():
         import models
