@@ -14,7 +14,7 @@
                         <h6 class="text-muted mb-0">Total Income</h6>
                         <span class="stat-icon">📈</span>
                     </div>
-                    <h2 class="mb-0 fw-bold">${{ "%.2f"|format(total_income) }}</h2>
+                    <h2 class="mb-0 fw-bold">₹{{ "%.2f"|format(total_income) }}</h2>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                         <h6 class="text-muted mb-0">Total Expenses</h6>
                         <span class="stat-icon">📉</span>
                     </div>
-                    <h2 class="mb-0 fw-bold">${{ "%.2f"|format(total_expense) }}</h2>
+                    <h2 class="mb-0 fw-bold">₹{{ "%.2f"|format(total_expense) }}</h2>
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
                         <span class="stat-icon">💰</span>
                     </div>
                     <h2 class="mb-0 fw-bold {% if balance >= 0 %}text-success{% else %}text-danger{% endif %}">
-                        ${{ "%.2f"|format(balance) }}
+                        ₹{{ "%.2f"|format(balance) }}
                     </h2>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                                         </span>
                                     </td>
                                     <td class="text-end fw-semibold {% if transaction.transaction_type == 'income' %}text-success{% else %}text-danger{% endif %}">
-                                        ${{ "%.2f"|format(transaction.amount) }}
+                                        ₹{{ "%.2f"|format(transaction.amount) }}
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -200,7 +200,7 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return '$' + value;
+                                return '₹' + value;
                             }
                         }
                     }

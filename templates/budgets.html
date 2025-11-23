@@ -30,9 +30,9 @@
 
                     <div class="mb-3">
                         <div class="d-flex justify-content-between mb-2">
-                            <span class="fw-semibold">Budget: ${{ "%.2f"|format(item.budget.amount) }}</span>
+                            <span class="fw-semibold">Budget: ₹{{ "%.2f"|format(item.budget.amount) }}</span>
                             <span class="fw-semibold {% if item.spent > item.budget.amount %}text-danger{% else %}text-success{% endif %}">
-                                Spent: ${{ "%.2f"|format(item.spent) }}
+                                Spent: ₹{{ "%.2f"|format(item.spent) }}
                             </span>
                         </div>
                         <div class="progress" style="height: 25px;">
@@ -48,7 +48,7 @@
                         <div>
                             <small class="text-muted">Remaining</small>
                             <div class="fw-semibold {% if item.remaining < 0 %}text-danger{% else %}text-success{% endif %}">
-                                ${{ "%.2f"|format(item.remaining) }}
+                                ₹{{ "%.2f"|format(item.remaining) }}
                             </div>
                         </div>
                         <div class="text-end">

@@ -37,7 +37,7 @@
                                 </span>
                             </td>
                             <td class="fw-semibold {% if item.recurring.transaction_type == 'income' %}text-success{% else %}text-danger{% endif %}">
-                                ${{ "%.2f"|format(item.recurring.amount) }}
+                                ₹{{ "%.2f"|format(item.recurring.amount) }}
                             </td>
                             <td><span class="badge bg-info">{{ item.recurring.frequency.capitalize() }}</span></td>
                             <td>
